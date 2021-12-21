@@ -1,13 +1,22 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: 'AWS::Serverless-2016-10-31'
 Description: An AWS Lambda application that calls the Lambda API.
+
+
 Resources:
   TreeApiFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: target/treeapi.jar
-      Handler: com.data.tree.api.LamdaHandler
+      FunctionName: TreeApiFunction
+      Handler: com.data.tree.api.LamdaHandler::handleRequest
       Runtime: java11
       Description: Java function
       MemorySize: 512
       Timeout: 10
+      Events:
+        GatewayApi:
+          Type: Api
+          Properties:
+            Path: /search
+            Method: post
